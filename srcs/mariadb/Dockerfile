@@ -1,13 +1,13 @@
+
 FROM debian:buster
 
 RUN apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y mariadb-server
 
-EXPOSE 3306
+EXPOSE 33
 
 COPY ./config/my.cnf /etc/mysql/my.cnf
 COPY ./config/setup.sh /tmp/mariadb-setup.sh
-
 
 CMD ["sh", "/tmp/mariadb-setup.sh"]
