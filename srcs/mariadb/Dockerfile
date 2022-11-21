@@ -22,7 +22,10 @@ FROM debian:buster
 RUN apt-get update && apt-get upgrade -y 
 RUN apt-get install -y mariadb-server vim dumb-init ;
 RUN	chmod +x /usr/bin/dumb-init
-# RUN	chmod 777 /var/run/mysqld
+# RUN sleep 10
+# RUN	chmod 777 /run/mysqld/docker.sock
+# RUN rm /etc/mysql/mariadb.conf.d/50-server.cnf
+# COPY conf/50-server.conf /etc/mysql/mariadb.cnf.d
 COPY tools/setup.sh .
 RUN chmod +x setup.sh
 
@@ -33,7 +36,5 @@ ENV MYSQL_USER=kbaek
 ENV MYSQL_PASSWORD=1234
 
 EXPOSE 3306
-# RUN rm /etc/mysql/mariadb.conf.d/50-server.cnf
-# COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d
-# ENTRYPOINT ["bash"]
+COPY conf/50-server.conf /etc/mysql/mariadb.cnf.d
 ENTRYPOINT ["/usr/bin/dumb-init", "--", "bash", "/setup.sh"]
