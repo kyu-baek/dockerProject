@@ -18,4 +18,4 @@ EXPOSE 9000
 RUN		wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN     chmod 777 wp-cli.phar && mv wp-cli.phar /usr/local/bin/wp
 
-ENTRYPOINT ["sh", "/tmp/wp-setup.sh"]
+ENTRYPOINT ["sh", "conf/setup.sh"]

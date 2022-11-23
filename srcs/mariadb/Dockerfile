@@ -21,7 +21,7 @@ FROM debian:buster
 
 RUN apt-get update && apt-get upgrade -y 
 RUN apt-get install -y mariadb-server vim dumb-init ;
-RUN	chmod +x /usr/bin/dumb-init
+# RUN	chmod +x /usr/bin/dumb-init
 # RUN sleep 10
 # RUN	chmod 777 /run/mysqld/docker.sock
 # RUN rm /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -37,4 +37,4 @@ ENV MYSQL_PASSWORD=1234
 
 EXPOSE 3306
 COPY conf/50-server.conf /etc/mysql/mariadb.cnf.d
-ENTRYPOINT ["/usr/bin/dumb-init", "--", "bash", "/setup.sh"]
+ENTRYPOINT ["bash", "/setup.sh"]

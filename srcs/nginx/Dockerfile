@@ -62,7 +62,7 @@ RUN chmod +x /usr/bin/dumb-init
 
 RUN	openssl req -newkey rsa:2048 -days 365 -nodes -x509 \
 	-subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=kbaek/CN=kbaek.42.fr" \
-	-keyout /etc/ssl/private/kbaek42.fr.key -out /etc/ssl/certs/kbaek42.fr.crt
+	-keyout /etc/ssl/www.kbaek.42.fr.key -out /etc/ssl/www.kbaek.42.fr.crt
 
 COPY  ./conf/nginx.conf ./etc/nginx/conf.d/nginx.conf
 
