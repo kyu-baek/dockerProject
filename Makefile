@@ -7,7 +7,8 @@ $(NAME) :
 all : $(NAME)
 
 up :
-	sudo docker-compose -f $(COMPOSE_FILE) up --build -d
+	mkdir -p srcs/docker-dbdata && mkdir -p srcs/docker-wordpress
+	sudo docker-compose -f $(COMPOSE_FILE) up --build
 
 down :
 	sudo docker-compose -f $(COMPOSE_FILE) down
