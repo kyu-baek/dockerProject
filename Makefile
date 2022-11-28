@@ -9,6 +9,8 @@ all : $(NAME)
 up :
 	mkdir -p srcs/docker-dbdata && mkdir -p srcs/docker-wordpress
 	sudo docker-compose -f $(COMPOSE_FILE) up --build
+	sudo cp -rp srcs/nginx/conf/hosts /etc/hosts
+	sudo chmod 777 /etc/hosts
 
 down :
 	sudo docker-compose -f $(COMPOSE_FILE) down
@@ -27,9 +29,9 @@ clean :
 	sudo docker-compose -f $(COMPOSE_FILE) down --rmi all --volumes --remove-orphans
 
 fclean : clean
-	rm -rf ${HOME}/data
+	sudo rm -rf srcs/docker-dbdata srcs/docker-wordpress
 	sudo docker network prune --force
-	sodo docker volume prune --force
+	sudo docker volume prune --force
 	sudo docker system prune --all --force --volumes
 
 re : fclean all

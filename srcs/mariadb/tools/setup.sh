@@ -5,9 +5,9 @@ chown -R 777 /var/lib/mysql/
 chown -R mysql:mysql /var/lib/mysql/
 
 FILE="/var/lib/mysql/$MYSQL_DATABASE"
-
+service mysql start
 if [ ! -f "$FILE" ]; then
-    service mysql start
+    
 
     mysql -e "CREATE DATABASE IF NOT EXISTS $MYSQL_DATABASE;";
     mysql -e "CREATE USER IF NOT EXISTS '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';";
@@ -18,9 +18,9 @@ if [ ! -f "$FILE" ]; then
     mysql -u$MYSQL_ROOT -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;";
 
     mysql -hlocalhost $MYSQL_DATABASE -u$MYSQL_ROOT -p$MYSQL_ROOT_PASSWORD;
-    mysqladmin -u$MYSQL_ROOT -p$MYSQL_ROOT_PASSWORD shutdown;
+    
 fi
-
+mysqladmin -u$MYSQL_ROOT -p$MYSQL_ROOT_PASSWORD shutdown;
 exec mysqld_safe
 
 # echo "in start_mariadb.sh"
