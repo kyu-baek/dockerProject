@@ -26,38 +26,11 @@
 # docker run으로 명령을 실행 하더라도 Entrypoint의 명령에 영향을 끼치지 못하고,
 # Entrypoint의 명령 뒤에 쭉 인자로 나열을 하게 된다.
 
-#설명 출처: https://velog.io/@tjdwns2243/dockerfile-문법-작성법
-
-# FROM debian:buster
-# LABEL MAINTAINER="kbaek"
-
-# RUN		sed -i 's/deb.debian.org/ftp.kr.debian.org/g' etc/apt/sources.list && \
-# 		apt-get update && apt-get upgrade -y && \
-# 		apt-get install -y \
-# 		nginx \
-# 		openssl \
-# 		vim		\
-# 		procps
-
-# # COPY	conf/nginx.conf		/
-
-# RUN		openssl req -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=KR/ST=Seoul/L=Seoul/O=42Seoul/OU=kbaek/CN=kbaek.42.fr" -keyout localhost.dev.key -out localhost.dev.crt
-# RUN		mv localhost.dev.crt etc/ssl/certs/ && mv localhost.dev.key etc/ssl/private && chmod 600 etc/ssl/certs/localhost.dev.crt etc/ssl/private/localhost.dev.key
-# # RUN		mv /nginx.conf etc/nginx/nginx.conf
-# COPY ./conf/default /etc/nginx/sites-available/default
-# RUN		chown -R www-data:www-data /var/www/html/
-
-# # EXPOSE 443
-
-# # EXPOSE 80
-# CMD ["nginx", "-g", "daemon off;"]
-
 
 FROM debian:buster
 
-RUN apt-get update && apt-get upgrade -y && \
-	apt-get install -y nginx openssl apache2-utils dumb-init
-
+RUN apt-get update -y && apt-get upgrade -y
+RUN apt-get install -y nginx openssl apache2-utils dumb-init
 RUN chmod +x /usr/bin/dumb-init
 
 RUN	openssl req -newkey rsa:2048 -days 365 -nodes -x509 \
@@ -66,4 +39,4 @@ RUN	openssl req -newkey rsa:2048 -days 365 -nodes -x509 \
 
 COPY  ./conf/nginx.conf ./etc/nginx/conf.d/nginx.conf
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["/usr/bin/dumb-init", "--", "nginx", "-g", "daemon off;"]
