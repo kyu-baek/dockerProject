@@ -1,8 +1,9 @@
 #!/bin/sh
-service mysql start
 
 chown -R 777 /var/lib/mysql/
 chown -R mysql:mysql /var/lib/mysql/
+
+service mysql start
 
 if [ ! -d "/var/lib/mysql/$MYSQL_DATABASE" ]
 then

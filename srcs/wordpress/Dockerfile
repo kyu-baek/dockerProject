@@ -8,14 +8,13 @@
 
 FROM debian:buster
 
-
+        # sendmail \
 RUN apt-get update -y && apt-get upgrade -y \
     && apt-get install -y \
         php7.3-fpm \
         php-mysql \
         mariadb-client \
         wget \
-        sendmail \
         dumb-init
 
 RUN chmod +x /usr/bin/dumb-init
