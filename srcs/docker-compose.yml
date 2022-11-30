@@ -1,62 +1,129 @@
 
-version : '3'
+version: '3'
 
 services:
-  nginx:
-    container_name: c_nginx
-    build: nginx/
-    image: nginx
-    depends_on :
-      - wordpress
-    restart: always
-    ports:
-      - "443:443"
-    networks:
-      - wordpress
-    volumes:
-      - wp_volume:/var/www/wordpress
-
-  wordpress:
-    container_name: c_wordpress
-    build: wordpress/
-    image: wordpress
-    depends_on :
-      - mariadb
-    restart: always
-    networks:
-      - wordpress
-    env_file:
-      - .env
-    volumes:
-      - wp_volume:/var/www/wordpress
-
   mariadb:
-    container_name: c_mariadb
+    container_name: mariadb
     build: mariadb/
     image: mariadb
     restart: always
     networks:
-      - wordpress
+      - inception
+    expose:
+      - "3306"
+    volumes:
+      - db_vol:/var/lib/mysql
     env_file:
       - .env
+  nginx:
+    depends_on:
+      - wordpress
+    container_name: nginx
+    build: nginx/
+    image: nginx
+    restart: always
+    ports:
+      - "443:443"
     volumes:
-      - db_volume:/var/lib/mysql
+      - wordpress_vol:/var/www/html/wordpress
+    networks:
+      - inception
+    env_file:
+      - .env
+  wordpress:
+    depends_on:
+      - mariadb
+    container_name: wordpress
+    build: wordpress/
+    image: wordpress
+    restart: always
+    volumes:
+      - wordpress_vol:/var/www/html/wordpress
+    expose: 
+      - "9000"
+    networks:
+      - inception
+    env_file:
+      - .env
 
 networks:
-  wordpress:
-    name: wp-wordpress
+  inception:
     driver: bridge
 
 volumes:
-    db_volume:
-      driver_opts:
-        type: volume
-        o : 'bind'
-        device: '/home/kbaek/data/db_data'
+  wordpress_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/kbaek/data/wp_data
+      o: bind
+  db_vol:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/kbaek/data/db_data
+      o: bind
+# version : '3'
 
-    wp_volume:
-      driver_opts:
-        type: volume
-        o : 'bind'
-        device: '/home/kbaek/data/wp_data'
+# services:
+#   mariadb:
+#     container_name: c_mariadb
+#     build: mariadb/
+#     image: mariadb
+#     restart: always
+#     networks:
+#       - wordpress
+#     env_file:
+#       - .env
+#     volumes:
+#       - db_volume:/var/lib/mysql
+#     # tty: true
+
+#   nginx:
+#     container_name: c_nginx
+#     build: nginx/
+#     image: nginx
+#     depends_on :
+#       - wordpress
+#     restart: always
+#     ports:
+#       - "443:443"
+#     networks:
+#       - wordpress
+#     volumes:
+#       - wp_volume:/var/www/html/wordpress
+#     # tty: true
+
+#   wordpress:
+#     container_name: c_wordpress
+#     build: wordpress/
+#     image: wordpress
+#     depends_on :
+#       - mariadb
+#     restart: always
+#     networks:
+#       - wordpress
+#     env_file:
+#       - .env
+#     volumes:
+#       - wp_volume:/var/www/html/wordpress
+#     # tty: true
+
+# networks:
+#   wordpress:
+#     name: wp-wordpress
+#     driver: bridge
+
+# volumes:
+#     db_volume:
+#       driver_opts:
+#         type: volume
+#         o : 'bind'
+#         device: '/home/kbaek/data/db_data'
+
+#     wp_volume:
+#       driver_opts:
+#         type: volume
+#         o : 'bind'
+#         device: '/home/kbaek/data/wp_data'
 

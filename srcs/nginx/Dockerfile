@@ -38,5 +38,10 @@ RUN	openssl req -newkey rsa:2048 -days 365 -nodes -x509 \
 	-keyout /etc/ssl/www.kbaek.42.fr.key -out /etc/ssl/www.kbaek.42.fr.crt
 
 COPY  ./conf/nginx.conf ./etc/nginx/conf.d/nginx.conf
+COPY    tools/setup.sh .
+RUN     chmod +x setup.sh
 
-CMD ["/usr/bin/dumb-init", "--", "nginx", "-g", "daemon off;"]
+EXPOSE 443
+# ENTRYPOINT ["/usr/bin/dumb-init", "--", "nginx", "-g" "daemon off"]
+ENTRYPOINT ["/usr/bin/dumb-init", "--"]
+CMD ["sh", "/setup.sh"]
