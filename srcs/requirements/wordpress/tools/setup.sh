@@ -9,8 +9,6 @@
 #   첫째로 nginx (www-data 사용자)가 워드프레스 폴더 및 파일에대한 편집권한이 없으면 업데이트,
 #   플러그 및 테마 설치와 업데이트등에 문제가 생겨 오류가 나기때문에 chown 로  권한을 변경.
 #   -R 옵션은 모든 하위폴더 및 파일을 포함한다는 뜻입니다.
-# chown -R www-data:www-data /var/www/wordpress/
-# chmod -R 777 /var/www/wordpress/
 chown -R www-data:www-data /var/www/
 
 

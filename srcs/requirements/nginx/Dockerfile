@@ -42,6 +42,6 @@ COPY    tools/setup.sh .
 RUN     chmod +x setup.sh
 
 EXPOSE 443
-# ENTRYPOINT ["/usr/bin/dumb-init", "--", "nginx", "-g" "daemon off"]
+
 ENTRYPOINT ["/usr/bin/dumb-init", "--"]
 CMD ["sh", "/setup.sh"]
