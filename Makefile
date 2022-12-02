@@ -4,7 +4,7 @@ all : up
 
 up :
 	mkdir -p /home/kbaek/data/wp_data /home/kbaek/data/db_data
-	sudo cp -rp srcs/nginx/conf/hosts /etc/hosts
+	sudo cp -rp srcs/requirements/nginx/conf/hosts /etc/hosts
 	sudo chmod 777 /etc/hosts
 	sudo docker-compose -f $(COMPOSE_FILE) up --build
 
