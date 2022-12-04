@@ -6,23 +6,23 @@ up :
 	mkdir -p /home/kbaek/data/wp_data /home/kbaek/data/db_data
 	sudo cp -rp srcs/requirements/nginx/conf/hosts /etc/hosts
 	sudo chmod 777 /etc/hosts
-	sudo docker-compose -f $(COMPOSE_FILE) up --build
+	sudo docker compose -f $(COMPOSE_FILE) up --build
 
 down :
-	sudo docker-compose -f $(COMPOSE_FILE) down -v
+	sudo docker compose -f $(COMPOSE_FILE) down -v
 
 restart	:
-	sudo docker-compose -f $(COMPOSE_FILE) restart
+	sudo docker compose -f $(COMPOSE_FILE) restart
 
 ps :
-	sudo docker-compose -f $(COMPOSE_FILE) ps
+	sudo docker compose -f $(COMPOSE_FILE) ps
 
 logs :
-	sudo docker-compose -f $(COMPOSE_FILE) logs
+	sudo docker compose -f $(COMPOSE_FILE) logs
 
 
 clean :
-	sudo docker-compose -f $(COMPOSE_FILE) down --rmi all --volumes --remove-orphans
+	sudo docker compose -f $(COMPOSE_FILE) down --rmi all --volumes --remove-orphans
 
 fclean : clean
 	sudo rm -fr -f /home/kbaek/data/wp_data /home/kbaek/data/db_data

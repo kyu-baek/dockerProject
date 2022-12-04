@@ -22,6 +22,7 @@ wp core download --allow-root
 cp -rf /tmp/wp-config.php /var/www/html/wordpress/
 wp core install --allow-root --admin_user=$WP_USER --admin_password=$WP_USER_PASSWORD \
     --admin_email=$WP_ADMIN_EMAIL --url=$URL --title=$WP_TITLE
+wp  user create --allow-root $WP_USER_ID kbaek@student.42seoul.kr --user_pass=$WP_USER_PASSWORD --role=author
 fi
 
 echo "env[MYSQL_DATABASE] = \$MYSQL_DATABASE" >> /etc/php/7.3/fpm/pool.d/www.conf
